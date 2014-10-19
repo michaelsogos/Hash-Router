@@ -71,10 +71,8 @@ var Router = {
     __run: function (route, state, previousResult) {
         if (route[state]) {
             var runTask = new Router.task(function (result) {
-                if (result !== false) {
-                    var nextState = Router.__nextState(state);
-                    if (nextState) Router.__run(route, nextState, result);
-                }
+                var nextState = Router.__nextState(state);
+                if (nextState) Router.__run(route, nextState, result);
             });
             route.event = {};
             route.event.previousResult = previousResult;
