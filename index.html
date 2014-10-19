@@ -85,31 +85,6 @@ Router.add(route);
 Router.init();
 </code></pre>
 
-<h4>Init</h4>
-<p><b>Start to listen for url-hash changes.</b></p>
-<p>If page starts with no hash <code>(http://website/)</code> then the router redirect to default empty hash <code>(http://website/#/)</code>, 
-else if the page is called with hash <code>(http://website/#/blog)</code> then the router run the functions specified on matching rule.</p>
-<p>Pay attention when you call <code>init()</code> method, the suggestion is after dom is ready and after any bootstrap js code is executed.</p>
-<p>The init method can be called with a function that will be executed before the first route function is called.</p>
-<pre><code>//init rule with onChange function
-var onChangeRoute = function(route){
-// do something
-};
-Router.init(onChangeRoute);
-</code></pre>
-
-<h4>Add</h4>
-<p><b>Add a rule (route definition explained at Getting Started).</b></p>
-<p>If a rule with the same <code>path</code> already exist, then it will be ignored.</p>
-Is possible to overwrite the existing rules passing <code>true</code> to <code>overwrite</code> parameter.</p>
-<p>Can exist only a rule for the same <code>path</code>.</p>
-<pre><code>//add rule
-var route = {...}
-Router.add(route);
-//add rule overwriting existing
-Router.add(route,true);
-</code></pre>
-
 <h4>Route Definition</h4>
 <p>A route definition is a simple object that have to contain a property <code>path</code> and at least one callback function
   <code>before</code>, <code>on</code> and <code>after</code>.
@@ -124,7 +99,13 @@ var route = {
 <pre><code>//complex route definition
 var route = {
   path: '#/',
-  before: function() { ... },
+  before: function() { 
+    //The [this] object is a copy of the [route] object plus:
+    //this.params containing hash tokens
+    //this.event containing data about function execution
+    //this.task containing methods to manage functions execution
+    //this.url containing the original url hash
+  },
   on: function() { ... },
   after: function() { ... },
   config: {
@@ -134,9 +115,22 @@ var route = {
   }
 }
 </code></pre>
+<p>The path property can be a normal static hash like <code>#/access/login</code>
+or a parametrized string like <code>#/blog/:date/:slug</code>, in this case the route parameters will be completed with
+hash tokens.
+</p>
+<pre><code>//if my url is http://localhost/blog/20140101/hello-world
+var route = {
+  path: '#/blog/:date/:slug',
+  on: function() { 
+    //this.params.date contains '20140101'
+    //this.params.slug contains 'hello-world'
+  },
+}
+</code></pre>
 <p>There are four reserved property that you can't use to extend the route definition.</p>
 <p>
-  The <code>params</code> containing route parameter.<br/>
+  The <code>params</code> containing route parameters.<br/>
   The <code>url</code> containing the original hash.<br>
   The <code>event</code> containing two property: <code>state</code> indicating which function is executing (before, on, after) 
   and <code>previousResult</code> containing the value returned from previous function.<br/>
@@ -185,42 +179,115 @@ var onFunction = function(){
   //this.event.previousResult = 'an object to pass to next function'
 }
 
+//an ajax example
+var beforeFunction = function(){
+  //use jquery ajax implementation
+  $.ajax({
+  async:true,
+  url: '...',
+  success: function(data){
+    this.task.done(data);
+  },
+  error: function(request){
+    this.taks.done('error');
+  });
+}
 
+var onFunction = function(){
+  //execution reach this only after ajax request is completed :)
+  //this.event.previousResult = ajax result
+}
+</code></pre>
 
+<h4>init(), init(onChangeFunction)</h4>
+<p><b>Start to listen for url-hash changes.</b></p>
+<p>If page starts with no hash <code>(http://website/)</code> then the router redirect to default empty hash <code>(http://website/#/)</code>, 
+else if the page is called with hash <code>(http://website/#/blog)</code> then the router run the functions specified on matching rule.</p>
+<p>Pay attention when you call <code>init()</code> method, the suggestion is after dom is ready and after any bootstrap js code is executed.</p>
+<p>The init method can be called with a function that will be executed before the first route function is called.</p>
+<pre><code>//init rule with onChange function
+var onChangeRoute = function(route){
+// do something
+};
+Router.init(onChangeRoute);
+</code></pre>
+
+<h4>add(route), add(route,overwrite)</h4>
+<p><b>Add a rule.</b></p>
+<p>If a rule with the same <code>path</code> already exist, then it will be ignored.</p>
+Is possible to overwrite the existing rules passing <code>true</code> to <code>overwrite</code> parameter.</p>
+<p>Can exist only a rule for the same <code>path</code>.</p>
+<pre><code>//add rule
+var route = {...}
+Router.add(route);
+//add rule overwriting existing
+Router.add(route,true);
+</code></pre>
+
+<h4>navigate(hash)</h4>
+<p><b>Change the url hash and run functions defined in rule matching path property.</b></p>
+<pre><code>//navigate to hash passed as first argument
+Router.navigate('#/access/login');
+</code></pre>
+
+<h4>run(route)</h4>
+<p><b>Execute functions defined in the route.</b></p>
+<pre><code>//execute functions defined in rule passed as first argument
+var route = {
+  path: '#/',
+  before: beforeFunction,
+  on: onFunction,
+}
+Router.run(route);
+</code></pre>
+
+<h4>findRoute(path)</h4>
+<p><b>Find a route by path property.</b></p>
+<pre><code>//find route by path passed as first argument
+var route = {
+  path: '#/blog/:date/:slug',
+  before: beforeFunction,
+  on: onFunction,
+}
+var foundRoute = Router.findRoute('#/blog/:date/:slug');
+</code></pre>
+
+<h4>matchRoute(hash)</h4>
+<p><b>Find a route definition by path property matching the value passed as first argument.</b></p>
+<pre><code>//find route that match path property
+var route = {
+  path: '#/blog/:date/:slug',
+  before: beforeFunction,
+  on: onFunction,
+}
+var foundRoute = Router.matchRoute('#/blog/20140101/hello-world');
 </code></pre>
 
 
-
-
-
-
-
-
-<h3>
-<a name="designer-templates" class="anchor" href="#designer-templates"><span class="octicon octicon-link"></span></a>Designer Templates</h3>
-
-<p>We've crafted some handsome templates for you to use. Go ahead and continue to layouts to browse through them. You can easily go back to edit your page before publishing. After publishing your page, you can revisit the page generator and switch to another theme. Your Page content will be preserved if it remained markdown format.</p>
-
-<h3>
-<a name="rather-drive-stick" class="anchor" href="#rather-drive-stick"><span class="octicon octicon-link"></span></a>Rather Drive Stick?</h3>
-
-<p>If you prefer to not use the automatic generator, push a branch named <code>gh-pages</code> to your repository to create a page manually. In addition to supporting regular HTML content, GitHub Pages support Jekyll, a simple, blog aware static site generator written by our own Tom Preston-Werner. Jekyll makes it easy to create site-wide headers and footers without having to copy them across every page. It also offers intelligent blog support and other advanced templating features.</p>
-
 <h3>
 <a name="authors-and-contributors" class="anchor" href="#authors-and-contributors"><span class="octicon octicon-link"></span></a>Authors and Contributors</h3>
-
-<p>You can <a href="https://github.com/blog/821" class="user-mention">@mention</a> a GitHub username to generate a link to their profile. The resulting <code>&lt;a&gt;</code> element will link to the contributor's GitHub Profile. For example: In 2007, Chris Wanstrath (<a href="https://github.com/defunkt" class="user-mention">@defunkt</a>), PJ Hyett (<a href="https://github.com/pjhyett" class="user-mention">@pjhyett</a>), and Tom Preston-Werner (<a href="https://github.com/mojombo" class="user-mention">@mojombo</a>) founded GitHub.</p>
+<p>A great thanks for the works that inspired me to the developers of:
+<a href="https://github.com/mtrpcic/pathjs">path.js</a>
+<a href="https://github.com/quirkey/sammy">sammy.js</a>
+<a href="https://github.com/flatiron/director">director.js</a>
+</p>
+<p>
+I will continue to update and maintain this library, and to evolve thanks to your feedbacks,
+Michael Sogos :)
+</p>
 
 <h3>
 <a name="support-or-contact" class="anchor" href="#support-or-contact"><span class="octicon octicon-link"></span></a>Support or Contact</h3>
-
-<p>Having trouble with Pages? Check out the documentation at <a href="http://help.github.com/pages">http://help.github.com/pages</a> or contact <a href="mailto:support@github.com">support@github.com</a> and we’ll help you sort it out.</p>
+<p>Having trouble with my library? After read documentation in this page you can send me an issue on <a href="https://github.com/michaelsogos/Hash-Router">GitHub</a></p>
+<p>Any feedback about a new function/behaviour/idea is appreciated.</p>
+      
+        
       </section>
 
       <footer>
         <span class="ribbon-outer">
           <span class="ribbon-inner">
-            <p>this project by <a href="https://github.com/michaelsogos">michaelsogos</a> can be found on <a href="https://github.com/michaelsogos/Hash-Router">GitHub</a></p>
+            <p>this project by <a href="https://github.com/michaelsogos">Michael Sogos</a> can be found on <a href="https://github.com/michaelsogos/Hash-Router">GitHub</a></p>
           </span>
           <span class="left-tail"></span>
           <span class="right-tail"></span>
