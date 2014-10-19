@@ -9,6 +9,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.gitignore = .gitignore
 		hash-router.js = hash-router.js
 		README.md = README.md
+		WebEssentials-Settings.json = WebEssentials-Settings.json
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{84C09F9D-5B33-4D99-A546-A24C15F6ED09}"
+	ProjectSection(SolutionItems) = preProject
+		hash-router.js = hash-router.js
 	EndProjectSection
 EndProject
 Global
