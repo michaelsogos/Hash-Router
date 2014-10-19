@@ -47,7 +47,8 @@ So every function calls are syncronized thanks to a task manager (see the exampl
 The difference with other libraries is that you have to specify when your function/task has been done,
 else the assumption is to not execute next function.
 
-Actually the priority is <b><i>BEFORE</i></b> -> <b><i>ON</i></b> -> <b><i>AFTER</i></b>, but there isn't a real difference using BEFORE or ON.
+Actually the priority is <b><i>BEFORE</i></b> -> <b><i>ON</i></b> -> <b><i>AFTER</i></b>,
+but there isn't a real difference using BEFORE or ON.
 You can insert the custom code all in one method (not important which) without problem.
 The only advantage is that any value returned from one function will be sent to the next function (see example),
 this should really improve your code organization.
