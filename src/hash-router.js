@@ -65,7 +65,7 @@ var Router = {
             console.error("Cannot find a valid route for hash " + hash + "!");
             return false;
         } else if (!route && Router.__eventOnNotFound) {
-            Router.__eventOnChange(Rotuer.__hashToArray(hash));
+            Router.__eventOnChange(Router.__hashToArray(hash));
         }
         return Router.run(route);
     },
