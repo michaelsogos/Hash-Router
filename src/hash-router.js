@@ -38,9 +38,12 @@
 /// Component to manage route based on hash, it is designed to be global.
 var Router = {
     /// Initialize the router.
-    /// Accept a callback function to execute code before any route function is called.
-    init: function (onChangeFunction) {
-        Router.__eventOnChange = onChangeFunction;
+    /// Accept a callback function to execute code before any route function is called,
+    /// and a callback function to execute code when a route is not found.
+    init: function (onRouteChange, onRouteNotFound) {
+        Router.__eventOnChange = onRouteChange;
+        Router.__eventOnNotFound = onRouteNotFound;
+
         if (!("onhashchange" in window)) {
             console.error("The browser doesn't support HASH on URL!");
             return false;
@@ -58,15 +61,22 @@ var Router = {
     },
     __listener: function (hash) {
         var route = Router.matchRoute(hash);
-        if (!route) {
+        if (!route && !Router.__eventOnNotFound) {
             console.error("Cannot find a valid route for hash " + hash + "!");
             return false;
+        } else if (!route && Router.__eventOnNotFound) {
+            Router.__eventOnChange(Rotuer.__hashToArray(hash));
         }
         return Router.run(route);
     },
     ///Change the url hash and run the proper route.
-    navigate: function (path) {
-        window.location.hash = path;
+    navigate: function (hash) {
+        window.location.hash = hash;
+    },
+    __hashToArray: function (hash) {
+        var tokens = hash.split("/");
+        if (tokens.length > 0 && tokens[0] == '#') tokens.shift();
+        return tokens;
     },
     __run: function (route, state, previousResult) {
         if (route[state]) {
@@ -90,6 +100,7 @@ var Router = {
         return null;
     },
     __eventOnChange: null,
+    __eventOnNotFound: null,
     ///Run the functions for specified route.
     ///The route priority is BEFORE -> ON -> AFTER.
     ///The [this] object passed to functions contains [task] to specify if router have to execute next function.
@@ -129,8 +140,8 @@ var Router = {
         }
     },
     ///Find a route for specified url-hash.
-    matchRoute: function (url) {
-        var tester = url;
+    matchRoute: function (hash) {
+        var tester = hash;
         var params = {};
 
         for (i = 0; i < Router.routes.length; i++) {
@@ -139,15 +150,15 @@ var Router = {
                 var routeSlices = route.path.split("/");
                 var testerSlices = tester.split("/");
                 for (x = 0; x < routeSlices.length; x++) {
-                    if ((x < testerSlices.length) && (routeSlices[i].charAt(0) === ":")) {
-                        params[routeSlices[i].replace(/:/, '')] = testerSlices[i];
-                        compare = tester.replace(testerSlices[i], routeSlices[i]);
+                    if ((x < testerSlices.length) && (routeSlices[x].charAt(0) === ":")) {
+                        params[routeSlices[x].replace(/:/, '')] = testerSlices[x];
+                        tester = tester.replace(testerSlices[x], routeSlices[x]);
                     }
                 }
             }
             if (route.path === tester) {
                 route.params = params;
-                route.url = url;
+                route.url = hash;
                 return route;
             }
         }
