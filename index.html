@@ -86,10 +86,10 @@ Router.init();
 </code></pre>
 
 <h4>Init</h4>
-<p>Start to listen for url-hash changes.</p>
-<p>If page starts with no hash (http://website/) then the router redirect to default empty hash (http://website/#/),<br/>
-else if the page is called with hash (http://website/#/blog) then the router run the functions specified on matching rule.<br/>
-Pay attention when you call init() method, the suggestion is after dom is ready and after any bootstrap js code is executed.</p>
+<p><b>Start to listen for url-hash changes.</b></p>
+<p>If page starts with no hash (http://website/) then the router redirect to default empty hash (http://website/#/), 
+else if the page is called with hash (http://website/#/blog) then the router run the functions specified on matching rule.</p>
+<p>Pay attention when you call init() method, the suggestion is after dom is ready and after any bootstrap js code is executed.</p>
 <p>The init method can be called with a function that will be executed before the first route function is called.</p>
 <pre><code>//init rule with onChange function
 var onChangeRoute = function(route){
@@ -99,7 +99,22 @@ Router.init(onChangeRoute);
 </code></pre>
 
 <h4>Add</h4>
-<p>The add method </p>
+<p><b>Add a rule (route definition explained at Getting Started).</b></p>
+<p>If a rule with the same <b><i>path</i></b></p> already exist, then it will be ignored.
+Is possible to overwrite the existing rules passing <i>true</i> to <b><i>overwrite</i></b> parameter.</p>
+<p>Can exist only a rule for the same <b><i>path</i></b>.</p>
+<pre><code>//add rule
+var route = {...}
+Router.add(route);
+//add rule overwriting existing
+Router.add(route,true);
+</code></pre>
+
+
+
+
+
+
 
 
 <h3>
