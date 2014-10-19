@@ -3,7 +3,7 @@ Hash-Router
 
 Tiny and lightweight browser router library, developed with SPA in mind :)
 
-I tried for two week many useful library (sammy.js, director.js, path.js, crossroads.js, etc.) that do the samething that i do with this library;
+I tried for two week many useful library (sammy.js, director.js, path.js, crossroads.js, etc.) that do the samething that i do with my library;
 but every time a piece of code/functionality/behaviour is missed to reach the "perfection".
 
 I'm working a lot with SPA web application and, in my opinion, an SPA web application have to be based on lazy loading concept;
