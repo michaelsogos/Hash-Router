@@ -110,6 +110,85 @@ Router.add(route);
 Router.add(route,true);
 </code></pre>
 
+<h4>Route Definition</h4>
+<p>A route definition is a simple object that have to contain a property <code>path</code> and at least one callback function
+  <code>before</code>, <code>on</code> and <code>after</code>.
+</p>
+<pre><code>//route definition
+var route = {
+  path: '#/',
+  on: function() { ... }
+}
+</code></pre>
+<p>A route definition can be easily customized to contain any object that will be passed to callback function.</p>
+<pre><code>//complex route definition
+var route = {
+  path: '#/',
+  before: function() { ... },
+  on: function() { ... },
+  after: function() { ... },
+  config: {
+    namespace:'myNameSpace',
+    controller: 'myController',
+    ...
+  }
+}
+</code></pre>
+<p>There are four reserved property that you can't use to extend the route definition.</p>
+<p>
+  The <code>params</code> containing route parameter.<br/>
+  The <code>url</code> containing the original hash.<br>
+  The <code>event</code> containing two property: <code>state</code> indicating which function is executing (before, on, after) 
+  and <code>previousResult</code> containing the value returned from previous function.<br/>
+  The <code>task</code> containing only a method <code>done()</code> that is mandatory to call inside the function to
+  instructs the router task manager to execute next function.
+</p>
+<p>The task is very useful in the scenaries where a function make an async call (like ajax), 
+it help you on choose when execute next function
+</p>
+<pre><code>//task use example
+var route = {
+  path: '#/',
+  before: beforeFunction,
+  on: onFunction,
+}
+
+//not using task
+var beforeFunction = function(){
+  //something to do
+  // no call to this.task.done()
+}
+
+var onFunction = function(){
+  //execution never reach this
+}
+
+//but if ... use task
+var beforeFunction = function(){
+  //something to do
+  this.task.done();
+}
+
+var onFunction = function(){
+  //execution reach this :)
+  //this.event.previousResult = null
+}
+
+//but if ... use task in this way
+var beforeFunction = function(){
+  //something to do
+  this.task.done('an object to pass to next function');
+}
+
+var onFunction = function(){
+  //execution reach this :)
+  //this.event.previousResult = 'an object to pass to next function'
+}
+
+
+
+</code></pre>
+
 
 
 
