@@ -1,3 +1,4 @@
+//Version 1
 var Router = {
     init: function (onChangeFunction) {
         Router.__eventOnChange = onChangeFunction;
