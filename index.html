@@ -50,11 +50,25 @@
 <a name="welcome-to-github-pages" class="anchor" href="#welcome-to-github-pages"><span class="octicon octicon-link"></span></a>Welcome to Hash-Router Pages.</h3>
 
 <p>This page contains documentation & example.</p>
-<h4>fdf</h4>
-<pre><code>
-$ cd your_repo_root/repo_name
-$ git fetch origin
-$ git checkout gh-pages
+
+<h4>Getting Started</h4>
+<p>Any route rule must have an path: and a at least one callback function :before, :on, :after</p>
+<pre><code>{
+path: '#/',
+on: function() { ... }
+}
+</code></pre>
+<p>The rule can be customized as you want</p>
+<pre><code>{
+path: '#/',
+before: function() { ... },
+on: function() { ... },
+after: function() { ... },
+config: {
+k:v,
+...
+}
+}
 </code></pre>
 
 <p>If you're using the GitHub for Mac, simply sync your repository and you'll see the new branch.</p>
