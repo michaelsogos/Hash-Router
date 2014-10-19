@@ -52,6 +52,7 @@
 <p>This page contains documentation & example.</p>
 
 <h4>Getting Started</h4>
+
 <p>Any route rule must have an <b>path:</b> and a at least one callback function <b>:before</b>, <b>:on</b>, <b>:after</b>.</p>
 <pre><code>//route definition
 var route = {
@@ -59,7 +60,8 @@ var route = {
   on: function() { ... }
 }
 </code></pre>
-<p>The rule can be customized as you want</p>
+
+<p>The rule can be customized as you want.</p>
 <pre><code>//complex route definition
 var route = {
   path: '#/',
@@ -73,7 +75,28 @@ var route = {
 }
 </code></pre>
 
-<p>If you're using the GitHub for Mac, simply sync your repository and you'll see the new branch.</p>
+<p>Add rule to route.</p>
+<pre><code>//add rule
+Router.add(route);
+</code></pre>
+
+<p>Initialize router to start listening url-hash changes.</p>
+<pre><code>//init rule
+Router.init();
+</code></pre>
+
+<h4>Init</h4>
+<p>The init method can be called with a function that will be executed before the first route function is called.</p>
+<pre><code>//init rule with onChange function
+
+var onChangeRoute = function(route){
+// do something
+};
+
+Router.init(onChangeRoute);
+</code></pre>
+
+
 
 <h3>
 <a name="designer-templates" class="anchor" href="#designer-templates"><span class="octicon octicon-link"></span></a>Designer Templates</h3>
