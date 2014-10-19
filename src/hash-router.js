@@ -34,26 +34,29 @@
  * THE SOFTWARE.
  *
  **/
+
+/// Component to manage route based on hash, it is designed to be global.
 var Router = {
+    /// Initialize the router.
+    /// Accept a callback function to execute code before any route function is called.
     init: function (onChangeFunction) {
         Router.__eventOnChange = onChangeFunction;
         if (!("onhashchange" in window)) {
             console.error("The browser doesn't support HASH on URL!");
-            alert("The browser is not compatible with this web application!");
             return false;
         }
-        window.onhashchange = function () { Router.listener(location.hash) }
+        window.onhashchange = function () { Router.__listener(location.hash) }
         if (window.location.hash == '' || window.location.hash == '#') {
-            Router.listener('#/');
+            Router.__listener('#/');
             return true;
         }
         else {
-            Router.listener(window.location.hash);
+            Router.__listener(window.location.hash);
             return true;
         }
         return true;
     },
-    listener: function (hash) {
+    __listener: function (hash) {
         var route = Router.matchRoute(hash);
         if (!route) {
             console.error("Cannot find a valid route for hash " + hash + "!");
@@ -61,6 +64,7 @@ var Router = {
         }
         return Router.run(route);
     },
+    ///Change the url hash and run the proper route.
     navigate: function (path) {
         window.location.hash = path;
     },
@@ -88,10 +92,16 @@ var Router = {
         return null;
     },
     __eventOnChange: null,
+    ///Run the functions for specified route.
+    ///The route priority is BEFORE -> ON -> AFTER.
+    ///The [this] object passed to functions contains [task] to specify if router have to execute next function.
+    ///The [this] object passed to functions contains [event] object that contains previous function result.
     run: function (route) {
         Router.__eventOnChange(route);
         Router.__run(route, 'before');
     },
+    ///Add a route rule to router.
+    ///If a rule with the same path already exist will be ignored, while if overwrite = true then the route will be overwrited.
     add: function (route, overwrite) {
         var isAlreadyMapped = false;
         if (!route.path) {
@@ -114,11 +124,13 @@ var Router = {
         }
         Router.routes.push(route);
     },
+    ///Find a route for specified path.
     findRoute: function (path) {
         for (i = 0; i < Router.routes.length; i++) {
             if (Router.routes[i].path === path) return Router.routes[i];
         }
     },
+    ///Find a route for specified url-hash.
     matchRoute: function (url) {
         var tester = url;
         var params = {};
@@ -143,12 +155,15 @@ var Router = {
         }
         return null;
     },
+    ///Rules array.
     routes: [],
 }
 
+/// Component to manage tasks.
 Router.task = function (doneFunction) {
     return {
         __callback: doneFunction,
+        ///Send a signal to task to execute callback function
         done: function (result) {
             this.__callback(result);
         }
