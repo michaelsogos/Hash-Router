@@ -149,7 +149,7 @@ var Router = {
             var route = Router.routes[i];
             if (route.path.search(/:/) > 0) {//Dynamic parts
                 var routeSlices = route.path.split("/");
-                var testerSlices = tester.split("/");
+                var testerSlices = hash.split("/");
                 for (x = 0; x < routeSlices.length; x++) {
                     if ((x < testerSlices.length) && (routeSlices[x].charAt(0) === ":")) {
                         params[routeSlices[x].replace(/:/, '')] = testerSlices[x];
