@@ -142,14 +142,29 @@ var Router = {
     },
     ///Find a route for specified url-hash.
     matchRoute: function (hash) {
-        var tester = hash;
+        var hashIndexOfQuery = hash.indexOf('?');
+        var hashParams = hashIndexOfQuery >= 0 ? hash.substring(0, hashIndexOfQuery) : hash;
+        var hashQuery = hashIndexOfQuery >= 0 ? hash.substring(hash.indexOf('?') + 1).split('&') : [];
+        var tester = hashParams;
         var params = {};
+        var query = {};
 
+        //parse querystring
+        if (hashQuery.length > 0) {
+            for (q = 0; q < hashQuery.length; q++) {
+                var keyValue = (hashQuery[q]).split('=');
+                if (keyValue.length >= 1 && keyValue[0]) {
+                    query[keyValue[0]] = keyValue[1] ? keyValue[1] : '';
+                }
+            }
+        }
+
+        //parse hash parameters
         for (i = 0; i < Router.routes.length; i++) {
             var route = Router.routes[i];
             if (route.path.search(/:/) > 0) {//Dynamic parts
                 var routeSlices = route.path.split("/");
-                var testerSlices = hash.split("/");
+                var testerSlices = hashParams.split("/");
                 for (x = 0; x < routeSlices.length; x++) {
                     if ((x < testerSlices.length) && (routeSlices[x].charAt(0) === ":")) {
                         params[routeSlices[x].replace(/:/, '')] = testerSlices[x];
@@ -160,6 +175,7 @@ var Router = {
             if (route.path === tester) {
                 route.params = params;
                 route.url = hash;
+                route.query = query;
                 return route;
             }
         }
