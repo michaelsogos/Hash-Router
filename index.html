@@ -199,17 +199,42 @@ var onFunction = function(){
 }
 </code></pre>
 
-<h4>init(), init(onChangeFunction)</h4>
+<h4>init(), init(onRouteChange,OnRouteNotFound)</h4>
 <p><b>Start to listen for url-hash changes.</b></p>
 <p>If page starts with no hash <code>(http://website/)</code> then the router redirect to default empty hash <code>(http://website/#/)</code>, 
 else if the page is called with hash <code>(http://website/#/blog)</code> then the router run the functions specified on matching rule.</p>
 <p>Pay attention when you call <code>init()</code> method, the suggestion is after dom is ready and after any bootstrap js code is executed.</p>
 <p>The init method can be called with a function that will be executed before the first route function is called.</p>
-<pre><code>//init rule with onChange function
+<p>The init method can be called with a function that will be executed when no route match the url hash, this is useful on lazy
+  loading scenary because if no route match existing rules probabily you have to lazy load new js file containing missed rules.<br/>
+  Because this library supports lazy loading but leave to developers to choose the right mechanism, the only value passed to the
+  callback function is an array of hash parts, without '#' (#/account/login = [account][login]).<br/>
+  An example is the MVC pattern + "Lazy Loading Controller" concept; the controller should be responsible for its routes,
+  so you have to load controller js file and then register the routes with <code>Router.add()</code> method.<br/>
+  But if you prefer you can use it to catch NotFound errors :)
+</p>
+<pre><code>//init rule with onRouteChange
 var onChangeRoute = function(route){
 // do something
 };
 Router.init(onChangeRoute);
+
+//init rule with onRouteNotFound
+var onNotFound = function(tokens){
+//when a url hash not match with any existing routes (ex. #/access/login)
+//this function will be called with array = ['access','login']
+//now i can assume for convention that array[0] is the name of my controller
+//and with a library that help to load external static file, i can load my controller and register its routes
+
+  $.scripts('/app/controllers/'+token[0]+'.js', function(){
+    var loadedController = new window[token[0]]();
+    $.each(loadedController.routes, function(index,item){
+      Router.add(item,true);
+    });
+  });
+
+}
+Router.init(null,onNotFound);
 </code></pre>
 
 <h4>add(route), add(route,overwrite)</h4>
