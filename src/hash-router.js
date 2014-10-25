@@ -48,7 +48,7 @@ var Router = {
             console.error("The browser doesn't support HASH on URL!");
             return false;
         }
-        window.onhashchange = function () { Router.__listener(location.hash) }
+        Router.__bindHashChange();
         if (window.location.hash == '' || window.location.hash == '#') {
             Router.__listener('#/');
             return true;
@@ -58,6 +58,29 @@ var Router = {
             return true;
         }
         return true;
+    },
+    __bindHashChange: function () {
+        window.onhashchange = function () { Router.__listener(location.hash) }
+    },
+    __cleanHash: function (hash) {
+        var result = {};
+        var hashIndexOfQuery = hash.indexOf('?');
+
+        result.hash = hash;
+        result.hashParams = hashIndexOfQuery >= 0 ? hash.substring(0, hashIndexOfQuery) : hash;
+        result.hashQuery = hashIndexOfQuery >= 0 ? hash.substring(hash.indexOf('?') + 1) : '';
+        result.hashQueryArray = result.hashQuery ? result.hashQuery.split('&') : [];
+
+        var cleanedHashParams = result.hashParams.replace(/\/+$/, '');
+        if (result.hashParams !== cleanedHashParams) {
+            window.onhashchange = null;
+            result.hash = cleanedHashParams;
+            result.hash += result.hashQuery ? '?' + result.hashQuery : '';
+            window.location.hash = result.hash;
+            Router.__bindHashChange();
+        }
+
+        return result;
     },
     __listener: function (hash) {
         var route = Router.matchRoute(hash);
@@ -142,29 +165,28 @@ var Router = {
     },
     ///Find a route for specified url-hash.
     matchRoute: function (hash) {
-        var hashIndexOfQuery = hash.indexOf('?');
-        var hashParams = hashIndexOfQuery >= 0 ? hash.substring(0, hashIndexOfQuery) : hash;
-        var hashQuery = hashIndexOfQuery >= 0 ? hash.substring(hash.indexOf('?') + 1).split('&') : [];
-        var tester = hashParams;
+        var hashParts = Router.__cleanHash(hash);
+        var testerSlices = hashParts.hashParams.split("/");
+        var tester = hashParts.hashParams;
         var params = {};
         var query = {};
 
         //parse querystring
-        if (hashQuery.length > 0) {
-            for (q = 0; q < hashQuery.length; q++) {
-                var keyValue = (hashQuery[q]).split('=');
+        if (hashParts.hashQueryArray.length > 0) {
+            for (q = 0; q < hashParts.hashQueryArray.length; q++) {
+                var keyValue = (hashParts.hashQueryArray[q]).split('=');
                 if (keyValue.length >= 1 && keyValue[0]) {
                     query[keyValue[0]] = keyValue[1] ? decodeURIComponent(keyValue[1]) : '';
                 }
             }
         }
-        
+
         //parse hash parameters
         for (i = 0; i < Router.routes.length; i++) {
             var route = Router.routes[i];
             if (route.path.search(/:/) > 0) {//Dynamic parts
                 var routeSlices = route.path.split("/");
-                var testerSlices = hashParams.split("/");
+                var tester = hashParts.hashParams;
                 for (x = 0; x < routeSlices.length; x++) {
                     if ((x < testerSlices.length) && (routeSlices[x].charAt(0) === ":")) {
                         params[routeSlices[x].replace(/:/, '')] = testerSlices[x];
