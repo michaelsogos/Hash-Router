@@ -154,11 +154,11 @@ var Router = {
             for (q = 0; q < hashQuery.length; q++) {
                 var keyValue = (hashQuery[q]).split('=');
                 if (keyValue.length >= 1 && keyValue[0]) {
-                    query[keyValue[0]] = keyValue[1] ? keyValue[1] : '';
+                    query[keyValue[0]] = keyValue[1] ? decodeURIComponent(keyValue[1]) : '';
                 }
             }
         }
-
+        
         //parse hash parameters
         for (i = 0; i < Router.routes.length; i++) {
             var route = Router.routes[i];
