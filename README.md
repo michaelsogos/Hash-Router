@@ -1,5 +1,7 @@
 # Hash-Router #
 
+[![GitHub version](https://badge.fury.io/gh/michaelsogos%2Fhash-router.svg)](https://badge.fury.io/gh/michaelsogos%2Fhash-router)
+
 Tiny and lightweight browser router library, developed with SPA in mind :)
 
 

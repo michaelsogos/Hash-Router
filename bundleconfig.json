@@ -1,0 +1,9 @@
+[
+  {
+    "outputFileName": "src/hash-router.js",
+    "inputFiles": [
+      "src/hash-router.js"
+    ],
+    "sourceMap": true
+  }
+]
