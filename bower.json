@@ -5,8 +5,8 @@
     "Michael Sogos <michael.sogos@gurustudioweb.it>"
   ],
   "description": "Tiny and lightweight browser router library, developed with SPA in mind :)",
-  "main": "hash-router.js",
-  "moduleType": [],
+  "main": [ "src/hash-router.js", "src/hash-router.min.js", "src/hash-router.min.js.map" ],
+  "moduleType": [ ],
   "keywords": [
     "hash",
     "router",
