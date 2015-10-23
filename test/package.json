@@ -1,0 +1,13 @@
+{
+  "name": "test",
+  "version": "0.0.0",
+  "description": "test",
+  "main": "server.js",
+  "author": {
+    "name": "Michael",
+    "email": ""
+  },
+  "dependencies": {
+    "mocha": "^2.3.3"
+  }
+}
