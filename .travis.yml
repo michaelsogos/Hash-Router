@@ -3,7 +3,7 @@ language: node_js
 node_js:
   - 4.0
 before_script:
-  - npm install mocha
+  - npm install -g mocha
   - npm mocha --version
   - sleep 5   
 script: phantomjs test/UnitTest.js
