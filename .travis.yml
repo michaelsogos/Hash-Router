@@ -1,3 +1,5 @@
-﻿language: node_js
+sudo: false
+language: node_js
 node_js:
- - "4.0"
+  - 4.0
+script: phantomjs test/UnitTest.js "http://localhost:80/"  
