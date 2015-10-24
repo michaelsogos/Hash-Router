@@ -3,8 +3,8 @@ language: node_js
 node_js:
   - 4.0
 before_script:
-  - npm install -g mocha
+  - npm install -g mocha --save-dev
   - npm mocha --version
-  - npm install -g mocha-phantomjs
-  - npm mocha-phantomjs --version
+  - npm install -g assert --save-dev
+  - npm assert --version
 script: phantomjs test/UnitTest.js
