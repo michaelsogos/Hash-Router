@@ -39,7 +39,7 @@
 
 (function (global) {
     
-    Router = {
+    var Router = {
         init: function (onRouteChange, onRouteNotFound) {
             ///<summary>Initialize the router and attach to url change event to the browser.</summary>
             /// <param name="onRouteChange">Callback function to call just before the route logic will be executed.</param>
