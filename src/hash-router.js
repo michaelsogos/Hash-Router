@@ -36,6 +36,7 @@
  **/
 
 (function (global) {
+    
     Router = {
         init: function (onRouteChange, onRouteNotFound) {
             ///<summary>Initialize the router and attach to url change event to the browser.</summary>
