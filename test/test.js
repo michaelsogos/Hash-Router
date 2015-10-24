@@ -1,6 +1,4 @@
-﻿require('mocha');
-
-describe('Hash-Router', function () {
+﻿describe('Hash-Router', function () {
 	it('Global Definition', function () {
 		chai.assert.ok(Router !== null, "The [Router] object is defined globally!");
 	});
