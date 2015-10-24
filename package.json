@@ -6,6 +6,7 @@
   "version": "1.2.0",
   "description": "Tiny and lightweight browser router library, developed with SPA in mind :)",
   "main": "src/hash-router.js",
+  "files": [ "src/hash-router.js", "src/hash-router.min.js", "src/hash-router.min.js.map" ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/michaelsogos/Hash-Router.git"
@@ -22,7 +23,8 @@
   ],
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/michaelsogos/Hash-Router/issues"
+    "url": "https://github.com/michaelsogos/Hash-Router/issues",
+    "email": "michael.sogos@gurustudioweb.it"
   },
   "private": false,
   "devDependencies": {

@@ -16,8 +16,7 @@
     "npm",
     "spa",
     "url",
-    "path",
-    "nodejs"
+    "path"
   ],
   "license": "MIT",
   "ignore": [
