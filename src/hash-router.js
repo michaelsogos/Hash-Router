@@ -136,7 +136,7 @@
             }
 
             //parse hash parameters
-            for (i = 0; i < Router.routes.length; i++) {
+            for (var i = 0; i < Router.routes.length; i++) {
                 var route = Router.routes[i];
                 if (route.path.search(/:/) > 0) {//Dynamic parts
                     var routeSlices = route.path.split("/");
