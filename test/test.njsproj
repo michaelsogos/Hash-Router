@@ -31,10 +31,11 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="server.js" />
-    <Compile Include="UnitTest.js">
+    <Compile Include="test.js">
       <SubType>Code</SubType>
       <TestFramework>Mocha</TestFramework>
     </Compile>
+    <Content Include="test.html" />
     <None Include="_references.js" />
     <Content Include="package.json" />
     <Content Include="README.md" />

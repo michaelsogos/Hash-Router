@@ -8,6 +8,7 @@
     "email": ""
   },
   "dependencies": {
+    "chai": "^3.4.0",
     "mocha": "^2.3.3"
   }
 }

@@ -1,13 +1,13 @@
 ﻿require('../src/hash-router.js');
-var assert = require('assert');
+require('chai');
 
 describe('Hash-Router', function () {
 	it('Global Definition', function () {
-		assert.ok(Router !== null, "The [Router] object is defined globally!");
+		chai.assert.ok(Router !== null, "The [Router] object is defined globally!");
 	});
 	
 	it('Init', function () {
-		Router.init(function (route) {
+		window.Router.init(function (route) {
 			console.info("Route changed to: " + route);
 		}, function (tokens) {
 			console.info("Route faild with tokens: " + tokens);
