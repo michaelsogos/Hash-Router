@@ -27,5 +27,17 @@
   "bugs": {
     "url": "https://github.com/michaelsogos/Hash-Router/issues"
   },
-  "private": false
+  "private": false,
+  "devDependencies": {
+    "mocha": "^2.3.3"
+  },
+  "testling": {
+    "harness": "mocha-bdd",
+    "files": "test/UnitTest.js",
+    "browsers": [
+      "ie/8..latest",
+      "chrome/latest",
+      "firefox/latest"
+    ]
+  }  
 }
