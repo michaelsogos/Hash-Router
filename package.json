@@ -26,18 +26,9 @@
   },
   "private": false,
   "devDependencies": {
-    "mocha": "^2.3.3"
-  },
-  "testling": {
-    "harness": "mocha-bdd",
-    "files": "test/UnitTest.js",
-    "browsers": [
-      "ie/8..latest",
-      "chrome/latest",
-      "firefox/latest"
-    ]
+    "mocha-phantomjs": "^4.0.1"
   },
   "scripts": {
-    "test": "mocha --ui bdd"
+    "test": "mocha-phantomjs test/test.html"
   }
 }
