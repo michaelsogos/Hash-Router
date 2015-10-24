@@ -5,6 +5,6 @@ node_js:
 before_script:
   - npm install -g mocha --save-dev
   - npm mocha --version
-  - npm install -g assert --save-dev
-  - npm assert --version
-script: phantomjs test/UnitTest.js
+  - npm install -g chai --save-dev
+  - npm chai --version
+script: phantomjs test/test.html
