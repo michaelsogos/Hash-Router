@@ -35,6 +35,8 @@
  *
  **/
 
+"use strict";
+
 (function (global) {
     
     Router = {
