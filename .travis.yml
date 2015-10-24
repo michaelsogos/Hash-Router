@@ -4,7 +4,6 @@ node_js:
   - 4.0
 before_script:
   - npm install -g mocha --save-dev
-  - npm mocha --version
   - npm install -g chai --save-dev
-  - npm chai --version
+  - npm install -g mocha-phantomjs --save-dev
 script: phantomjs test/test.html
