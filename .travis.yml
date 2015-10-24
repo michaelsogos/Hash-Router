@@ -6,4 +6,4 @@ before_script:
   - npm install -g mocha --save-dev
   - npm install -g chai --save-dev
   - npm install -g mocha-phantomjs --save-dev
-script: phantomjs test/test.html
+script: phantomjs test/test.js
