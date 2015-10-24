@@ -4,4 +4,6 @@ node_js:
   - 4.0
 before_script:
   - npm install mocha
-script: phantomjs test/UnitTest.js "http://localhost:80/"  
+  - npm mocha --version
+  - sleep 5   
+script: phantomjs test/UnitTest.js
