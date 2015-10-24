@@ -6,9 +6,6 @@
   "version": "1.2.0",
   "description": "Tiny and lightweight browser router library, developed with SPA in mind :)",
   "main": "src/hash-router.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/michaelsogos/Hash-Router.git"
@@ -39,5 +36,8 @@
       "chrome/latest",
       "firefox/latest"
     ]
-  }  
+  },
+  "scripts": {
+    "test": "mocha --ui bdd"
+  }
 }
