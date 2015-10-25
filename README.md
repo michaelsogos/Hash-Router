@@ -1,15 +1,14 @@
-# Hash-Router #
-
-Tiny and lightweight browser router library, developed with SPA in mind :)
-
-
-[Documentation & Examples](http://michaelsogos.github.io/Hash-Router)
-
 >[![GitHub version](https://badge.fury.io/gh/michaelsogos%2Fhash-router.svg)](https://badge.fury.io/gh/michaelsogos%2Fhash-router)
 [![Bower version](https://badge.fury.io/bo/hash-router.svg)](https://badge.fury.io/bo/hash-router)
 [![Build Status](https://travis-ci.org/michaelsogos/Hash-Router.svg?branch=master)](https://travis-ci.org/michaelsogos/Hash-Router)
 [![Circle CI](https://circleci.com/gh/michaelsogos/Hash-Router/tree/master.svg?style=shield)](https://circleci.com/gh/michaelsogos/Hash-Router/tree/master) 
 [![Join the chat at https://gitter.im/michaelsogos/Hash-Router](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/michaelsogos/Hash-Router?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)  
+
+# Hash-Router #
+
+Tiny and lightweight browser router library, developed with SPA in mind :)
+
+[Documentation & Examples](http://michaelsogos.github.io/Hash-Router)
 
 # Why #
 
