@@ -1,5 +1,5 @@
 /*!
- * hash-router v1.2.0
+ * hash-router v1.2.2
  * https://github.com/michaelsogos/Hash-Router
  * 
  * Developed by Michael Sogos
@@ -38,7 +38,7 @@
 "use strict";
 
 (function (global) {
-    
+
     var Router = {
         init: function (onRouteChange, onRouteNotFound) {
             ///<summary>Initialize the router and attach to url change event to the browser.</summary>
@@ -78,7 +78,7 @@
             ///</summary>
             /// <param name="route">The route object.</param>
 
-            Router.__eventOnChange(route);
+            if (Router.__eventOnChange != null) Router.__eventOnChange(route);
             Router.__run(route, 'before');
         },
         add: function (route, overwrite) {

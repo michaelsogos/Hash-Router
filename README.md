@@ -72,4 +72,4 @@ The library have no opinion about how you lazy load files, and most important
 I hope you can appreciate my work and help me to improve this library with your suggestions.
 Use it freely as you want!
 
-Copyright (c) 2014 Michael Sogos, released under the MIT license.
+Copyright (c) 2014 - 2016 Michael Sogos, released under the MIT license.
