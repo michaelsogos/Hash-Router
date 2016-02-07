@@ -5,7 +5,7 @@
     "Michael Sogos <michael.sogos@gurustudioweb.it>",
     "Anton Rodin <sloot14@gmail.com>"
   ],
-  "version": "1.2.2",
+  "version": "1.2.3",
   "description": "Tiny and lightweight browser router library, developed with SPA in mind :)",
   "main": [ "src/hash-router.js", "src/hash-router.min.js", "src/hash-router.min.js.map" ],
   "moduleType": [ "globals" ],
