@@ -1,5 +1,5 @@
 /*!
- * hash-router v1.2.2
+ * hash-router v1.2.3
  * https://github.com/michaelsogos/Hash-Router
  * 
  * Developed by Michael Sogos
@@ -111,7 +111,7 @@
             ///<summary>Find a route for specified path.</summary>
             /// <param name="path">The path to find.</param>
 
-            for (i = 0; i < Router.routes.length; i++) {
+            for (var i = 0; i < Router.routes.length; i++) {
                 if (Router.routes[i].path === path) return Router.routes[i];
             }
         },
@@ -127,7 +127,7 @@
 
             //parse querystring
             if (hashParts.hashQueryArray.length > 0) {
-                for (q = 0; q < hashParts.hashQueryArray.length; q++) {
+                for (var q = 0; q < hashParts.hashQueryArray.length; q++) {
                     var keyValue = (hashParts.hashQueryArray[q]).split('=');
                     if (keyValue.length >= 1 && keyValue[0]) {
                         query[keyValue[0]] = keyValue[1] ? decodeURIComponent(keyValue[1]) : '';
@@ -138,16 +138,18 @@
             //parse hash parameters
             for (var i = 0; i < Router.routes.length; i++) {
                 var route = Router.routes[i];
+                tester = hashParts.hashParams;
+
                 if (route.path.search(/:/) > 0) {//Dynamic parts
                     var routeSlices = route.path.split("/");
-                    var tester = hashParts.hashParams;
-                    for (x = 0; x < routeSlices.length; x++) {
+                    for (var x = 0; x < routeSlices.length; x++) {
                         if ((x < testerSlices.length) && (routeSlices[x].charAt(0) === ":")) {
                             params[routeSlices[x].replace(/:/, '')] = testerSlices[x];
                             tester = tester.replace(testerSlices[x], routeSlices[x]);
                         }
                     }
                 }
+
                 if (route.path === tester) {
                     route.params = params;
                     route.url = hash;
