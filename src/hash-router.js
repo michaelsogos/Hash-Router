@@ -102,7 +102,7 @@
                 }
             }
             if (isAlreadyMapped) {
-                console.error("A ruote for the path " + ruote.path + " is already mapped!");
+                console.error("A route for the path " + route.path + " is already mapped!");
                 return false;
             }
             Router.routes.push(route);
