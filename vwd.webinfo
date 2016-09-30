@@ -23,10 +23,13 @@
     
     
   
-    <Service ID="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}"/>
+    
     
   
     <Service ID="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}"/>
+    
+  
     <Service ID="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}"/>
+    <Service ID="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}"/>
   </StartupServices>
 </VisualWebDeveloper>

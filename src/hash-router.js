@@ -91,7 +91,7 @@
                 console.error("Cannot find property path when adding a new route!");
                 return false;
             }
-            for (i = 0; i < Router.routes.length; i++) {
+            for (var i = 0; i < Router.routes.length; i++) {
                 if (Router.routes[i].path === route.path) {
                     isAlreadyMapped = true;
                     if (overwrite === true) {
@@ -130,7 +130,7 @@
                 for (var q = 0; q < hashParts.hashQueryArray.length; q++) {
                     var keyValue = (hashParts.hashQueryArray[q]).split('=');
                     if (keyValue.length >= 1 && keyValue[0]) {
-                        query[keyValue[0]] = keyValue[1] ? decodeURIComponent(keyValue[1]) : '';
+                        query[decodeURIComponent(keyValue[0])] = keyValue[1] ? decodeURIComponent(keyValue[1]) : '';
                     }
                 }
             }
