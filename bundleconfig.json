@@ -1,6 +1,6 @@
 [
   {
-    "outputFileName": "src/hash-router.js",
+    "outputFileName": "src/hash-router.min.js",
     "inputFiles": [
       "src/hash-router.js"
     ],
