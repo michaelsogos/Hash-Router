@@ -25,7 +25,10 @@
     "node_modules",
     "bower_components",
     "test",
-    "tests"
+    "tests",
+    ".travis.yml",
+    "bundleconfig.json",
+    "package.json"
   ],
   "private": false
 }
