@@ -28,7 +28,8 @@
     "tests",
     ".travis.yml",
     "bundleconfig.json",
-    "package.json"
+    "package.json",
+    "Hash-Router.njsproj"
   ],
   "private": false
 }
