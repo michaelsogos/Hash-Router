@@ -6,7 +6,7 @@
     "Anton Rodin <sloot14@gmail.com>",
     "LordRatte"
   ],
-  "version": "1.2.4",
+  "version": "1.2.6",
   "description": "Tiny and lightweight browser router library, developed with SPA in mind :)",
   "main": [ "src/hash-roter.js" ],
   "moduleType": [ "globals" ],
