@@ -1,15 +1,15 @@
 /*!
- * hash-router v1.2.3
+ * hash-router v1.2.4
  * https://github.com/michaelsogos/Hash-Router
  * 
  * Developed by Michael Sogos
- * Copyright 2014 
+ * Copyright 2016
  * Released under the MIT license
  * http://opensource.org/licenses/MIT
  *
- * Date: 2014-10-19
+ CreatedOn: 2014-10-19
  *
- * Copyright (C) 2014 by Michael Sogos <![[michael.sogos[at]gurustudioweb[dot]it]]>
+ * Copyright (C) 2016 by Michael Sogos <![[michael.sogos[at]gurustudioweb[dot]it]]>
  * Thanks to these libraries to inspired me:
  * - path.js https://github.com/mtrpcic/pathjs
  * - sammy.js http://sammyjs.org/
@@ -91,7 +91,7 @@
                 console.error("Cannot find property path when adding a new route!");
                 return false;
             }
-            for (i = 0; i < Router.routes.length; i++) {
+            for (var i = 0; i < Router.routes.length; i++) {
                 if (Router.routes[i].path === route.path) {
                     isAlreadyMapped = true;
                     if (overwrite === true) {
@@ -102,7 +102,7 @@
                 }
             }
             if (isAlreadyMapped) {
-                console.error("A ruote for the path " + ruote.path + " is already mapped!");
+                console.error("A route for the path " + route.path + " is already mapped!");
                 return false;
             }
             Router.routes.push(route);
@@ -130,7 +130,7 @@
                 for (var q = 0; q < hashParts.hashQueryArray.length; q++) {
                     var keyValue = (hashParts.hashQueryArray[q]).split('=');
                     if (keyValue.length >= 1 && keyValue[0]) {
-                        query[keyValue[0]] = keyValue[1] ? decodeURIComponent(keyValue[1]) : '';
+                        query[decodeURIComponent(keyValue[0])] = keyValue[1] ? decodeURIComponent(keyValue[1]) : '';
                     }
                 }
             }
