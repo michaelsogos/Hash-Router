@@ -117,6 +117,7 @@ ClientBin/
 *.[Pp]ublish.xml
 *.pfx
 *.publishsettings
+.ntvs_analysis.dat
 
 # RIA/Silverlight projects
 Generated_Code/
