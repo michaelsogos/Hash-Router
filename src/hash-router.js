@@ -38,16 +38,16 @@
 "use strict";
 
 (function (global) {
-
     var Router = {
+        /** Initialize the router and attach to url change event to the browser.
+        * @param {function} onRouteChange Callback function to call just before the route logic will be executed.
+        * @param {function} onRouteNotFound Callback function to call when no routes match the url.
+        * @return {bool}
+        */
         init: function (onRouteChange, onRouteNotFound) {
-            ///<summary>Initialize the router and attach to url change event to the browser.</summary>
-            /// <param name="onRouteChange">Callback function to call just before the route logic will be executed.</param>
-            /// <param name="onRouteNotFound">Callback function to call when no routes match the url.</param>
-
             Router.__eventOnChange = onRouteChange;
             Router.__eventOnNotFound = onRouteNotFound;
-
+            
             if (!("onhashchange" in window)) {
                 console.error("The browser doesn't support HASH on URL!");
                 return false;
@@ -63,29 +63,25 @@
             }
             return true;
         },
+        /** Change the url and run the proper route.
+        * @param {string} hash The hash to redirect to.        
+        */
         navigate: function (hash) {
-            ///<summary>Change the url and run the proper route.</summary>
-            /// <param name="hash">The hash to redirect to.</param>
-
             window.location.hash = hash;
         },
+        /** Run the route callback functions with priority BEFORE -> ON -> AFTER.
+        * @param {object} route The route object.
+        */
         run: function (route) {
-            ///<summary>
-            ///Run the route logic specified.
-            ///The priority is BEFORE -> ON -> AFTER.
-            ///The [this] object passed to functions contains [task] to specify if router have to execute next function.
-            ///The [this] object passed to functions contains [event] object that contains previous function result.
-            ///</summary>
-            /// <param name="route">The route object.</param>
-
             if (Router.__eventOnChange != null) Router.__eventOnChange(route);
             Router.__run(route, 'before');
         },
+        /** Add a route rule to router.
+        * @param {object} route The route object.
+        * @param {bool} overwrite If true and an route with same path already exist, it will be overwrited.
+        * @return {bool}
+        */
         add: function (route, overwrite) {
-            ///<summary>Add a route rule to router.</summary>
-            /// <param name="route">The route object.</param>
-            /// <param name="overwrite">If false and a rule with the same path already exist then this command will be ignored, while if true then the route will be overwrited.</param>
-
             var isAlreadyMapped = false;
             if (!route.path) {
                 console.error("Cannot find property path when adding a new route!");
@@ -96,7 +92,7 @@
                     isAlreadyMapped = true;
                     if (overwrite === true) {
                         Router.routes[i] = route;
-                        return;
+                        return true;
                     }
                     break;
                 }
@@ -106,25 +102,28 @@
                 return false;
             }
             Router.routes.push(route);
+            return true;
         },
+        /** Find a route for specified path.
+        * @param {string} path The path to find.
+        * @return {object} The route object
+        */
         findRoute: function (path) {
-            ///<summary>Find a route for specified path.</summary>
-            /// <param name="path">The path to find.</param>
-
             for (var i = 0; i < Router.routes.length; i++) {
                 if (Router.routes[i].path === path) return Router.routes[i];
             }
         },
+        /** Find a route for specified hash.
+        * @param {string} hash The hash to match the route path.
+        * @return {object} The route object
+        */
         matchRoute: function (hash) {
-            ///<summary>Find a route for specified hash.</summary>
-            /// <param name="hash">The hash to match the route path.</param>
-
             var hashParts = Router.__cleanHash(hash);
             var testerSlices = hashParts.hashParams.split("/");
             var tester = hashParts.hashParams;
             var params = {};
             var query = {};
-
+            
             //parse querystring
             if (hashParts.hashQueryArray.length > 0) {
                 for (var q = 0; q < hashParts.hashQueryArray.length; q++) {
@@ -134,12 +133,12 @@
                     }
                 }
             }
-
+            
             //parse hash parameters
             for (var i = 0; i < Router.routes.length; i++) {
                 var route = Router.routes[i];
                 tester = hashParts.hashParams;
-
+                
                 if (route.path.search(/:/) > 0) {//Dynamic parts
                     var routeSlices = route.path.split("/");
                     for (var x = 0; x < routeSlices.length; x++) {
@@ -149,7 +148,7 @@
                         }
                     }
                 }
-
+                
                 if (route.path === tester) {
                     route.params = params;
                     route.url = hash;
@@ -159,7 +158,13 @@
             }
             return null;
         },
-        ///Rules array.
+        /** Find the route for the actual URL.
+        * @return {object} The route object
+        */
+        actualRoute: function () {
+            return this.matchRoute(window.location.hash);
+        },
+        /* List of route object */
         routes: [],
         __bindHashChange: function () {
             window.onhashchange = function () { Router.__listener(location.hash) }
@@ -167,12 +172,12 @@
         __cleanHash: function (hash) {
             var result = {};
             var hashIndexOfQuery = hash.indexOf('?');
-
+            
             result.hash = hash;
             result.hashParams = hashIndexOfQuery >= 0 ? hash.substring(0, hashIndexOfQuery) : hash;
             result.hashQuery = hashIndexOfQuery >= 0 ? hash.substring(hash.indexOf('?') + 1) : '';
             result.hashQueryArray = result.hashQuery ? result.hashQuery.split('&') : [];
-
+            
             var cleanedHashParams = result.hashParams.replace(/\/+$/, '');
             if (result.hashParams !== cleanedHashParams) {
                 window.onhashchange = null;
@@ -181,7 +186,7 @@
                 window.location.hash = result.hash;
                 Router.__bindHashChange();
             }
-
+            
             return result;
         },
         __listener: function (hash) {
@@ -233,7 +238,7 @@
             }
         },
     }
-
+    
     global.Router = Router;
 
 })(this);
