@@ -3,7 +3,7 @@
   "homepage": "https://github.com/michaelsogos/Hash-Router",
   "author": "Michael Sogos <michael.sogos@gurustudioweb.it>",
   "contributors": [ "Anton Rodin <sloot14@gmail.com>", "LordRatte" ],
-  "version": "1.2.6",
+  "version": "1.2.7",
   "description": "Tiny and lightweight browser router library, developed with SPA in mind :)",
   "main": "src/hash-router.js",
   "files": [ "src/hash-router.js", "src/hash-router.min.js", "src/hash-router.min.js.map" ],
