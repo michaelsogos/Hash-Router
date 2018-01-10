@@ -81,12 +81,14 @@ export class Router {
         }
         return true;
     }
+
     /** Change the url and run the proper route.
     * @param {string} hash The hash to redirect to.
     */
     navigate(hash) {
         window.location.hash = hash;
     }
+
     /** Run the route callback functions with priority BEFORE -> ON -> AFTER.
     * @param {object} route The route object.
     */
@@ -94,6 +96,7 @@ export class Router {
         if (this.__eventOnChange != null) this.__eventOnChange(route);
         this.__run(route, 'before');
     }
+
     /** Add a route rule to this.
     * @param {object} route The route object.
     * @param {bool} overwrite If true and an route with same path already exist, it will be overwrited.
@@ -122,6 +125,7 @@ export class Router {
         this.routes.push(route);
         return true;
     }
+
     /** Find a route for specified path.
     * @param {string} path The path to find.
     * @return {object} The route object
@@ -131,6 +135,7 @@ export class Router {
             if (this.routes[i].path === path) return this.routes[i];
         }
     }
+
     /** Find a route for specified hash.
     * @param {string} hash The hash to match the route path.
     * @return {object} The route object
@@ -176,6 +181,7 @@ export class Router {
         }
         return null;
     }
+
     /** Find the route for the actual URL.
     * @return {object} The route object
     */
@@ -186,6 +192,7 @@ export class Router {
     __bindHashChange () {
         window.onhashchange =  ()=> { this.__listener(location.hash) }
     }
+
     __cleanHash (hash) {
         var result = {};
         var hashIndexOfQuery = hash.indexOf('?');
@@ -206,6 +213,7 @@ export class Router {
 
         return result;
     }
+
     __listener (hash) {
         var route = this.matchRoute(hash);
         if (!route && !this.__eventOnNotFound) {
@@ -217,11 +225,13 @@ export class Router {
         }
         return this.run(route);
     }
+
     __hashToArray (hash) {
         var tokens = hash.split("/");
         if (tokens.length > 0 && tokens[0] == '#') tokens.shift();
         return tokens;
     }
+
     __run(route, state, previousResult) {
         if (route[state]) {
             var runTask = new this.__task( (result) => {
@@ -238,6 +248,7 @@ export class Router {
             if (nextState) this.__run(route, nextState);
         }
     }
+
     __nextState (state) {
         if (state == 'before') return 'on';
         if (state == 'on') return 'after';
@@ -253,6 +264,4 @@ export class Router {
             }
         }
     }
-
-
 }
