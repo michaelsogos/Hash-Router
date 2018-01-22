@@ -242,7 +242,7 @@ export class Router {
             route.event.previousResult = previousResult;
             route.event.state = state;
             route.task = runTask;
-            route[state](route);
+            route[state](route); //here we pass route as a parameter, since we cannot use "this" with arrow function.
         } else {
             var nextState = this.__nextState(state);
             if (nextState) this.__run(route, nextState);
